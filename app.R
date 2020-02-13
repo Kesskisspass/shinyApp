@@ -8,11 +8,12 @@
 #
 
 library(shiny)
+library(shinythemes)
 library(dplyr)
 data("iris")
 
 # Define UI for application that draws a histogram
-ui <- fluidPage(
+ui <- fluidPage(theme = shinytheme("united"),
     navbarPage("Ma Super App",
         
         # Onglet histogramme
