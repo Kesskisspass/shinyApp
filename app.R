@@ -8,6 +8,7 @@
 #
 
 library(shiny)
+library(dplyr)
 data("iris")
 
 # Define UI for application that draws a histogram
@@ -71,12 +72,18 @@ ui <- fluidPage(
             )
             ),
         
-        # Onglet Affichage des données
+        #Onglet Affichage des données
         tabPanel("Dataset",
-                 h2("Le dataset Iris"),
-                 DT::dataTableOutput("dataset")
-                 ),
-        
+  
+                     selectInput("filterDataset", label = "Choisir la variable sur laquelle vous voulez filtrer le dataframe", 
+                     choices = c("tout","setosa", "versicolor", "virginica"), 
+                     selected = "tout"),
+                     h2("Le dataset Iris"),
+                     tableOutput("dataset")
+                         
+                ),
+
+
         # Onglet moyenne
         tabPanel("Résumé moyenne",
                  
@@ -134,9 +141,17 @@ server <- function(input, output) {
     })
     
     # Pour permettre le rendu de nos données library DT
-    output$dataset = DT::renderDataTable({
-        iris
+    output$dataset = renderTable({
+        if (input$filterDataset == "tout") {
+            iris <- iris
+        } else {
+            iris <- iris[iris$Species == input$filterDataset,]
+        }
     })
+    
+    # output$irisTable <- renderDataTable({
+    #     iris
+    # })
     
     # Calcul de la moyenne de chaque variable
     output$moyenne <- renderText({
