@@ -10,6 +10,7 @@
 library(shiny)
 library(shinythemes)
 library(dplyr)
+
 data("iris")
 
 # Define UI for application that draws a histogram
@@ -76,7 +77,7 @@ ui <- fluidPage(theme = shinytheme("united"),
         #Onglet Affichage des données
         tabPanel("Dataset",
   
-                     selectInput("filterDataset", label = "Choisir la variable sur laquelle vous voulez filtrer le dataframe", 
+                     selectInput("filterDataset", label = "Choisir l'espece que vous voulez afficher", 
                      choices = c("tout","setosa", "versicolor", "virginica"), 
                      selected = "tout"),
                      h2("Le dataset Iris"),
@@ -93,7 +94,7 @@ ui <- fluidPage(theme = shinytheme("united"),
                  
                  sidebarLayout(
                      sidebarPanel(
-                         selectInput("moyVar", label = "Choisir la variable à afficher pour le clacul de la moyenne:", 
+                         selectInput("moyVar", label = "Choisir la variable à afficher pour le calcul de la moyenne:", 
                                      choices = c("longueur sépales" = 1, "largeur sépales" = 2, "longueur pétales" = 3, "largeur pétales" = 4), 
                                      selected = 1),
                      ),
@@ -150,9 +151,6 @@ server <- function(input, output) {
         }
     })
     
-    # output$irisTable <- renderDataTable({
-    #     iris
-    # })
     
     # Calcul de la moyenne de chaque variable
     output$moyenne <- renderText({
